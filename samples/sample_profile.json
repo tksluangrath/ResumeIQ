@@ -1,0 +1,90 @@
+{
+  "full_name": "Terrance Luangrath",
+  "target_roles": ["Data Scientist", "ML Engineer", "Data Analyst"],
+  "career_summary": "MS Data Science candidate at UVA with hands-on experience building ML pipelines, NLP models, and data dashboards. Background in data analysis and statistical modeling with Python. Looking to apply semantic ML and LLM tooling in production environments.",
+  "preferred_tone": "professional",
+  "avoid_phrases": ["synergy", "leverage", "utilize", "passionate about"],
+
+  "work_history": [
+    {
+      "company": "Optum",
+      "title": "Data Analyst",
+      "dates": "2022 – 2024",
+      "location": "Remote",
+      "technologies": ["Python", "SQL", "PostgreSQL", "Tableau", "Excel", "pandas"],
+      "accomplishments": [
+        "Reduced monthly report generation time from 3 hours to 20 minutes by rewriting SQL aggregation queries and automating delivery with Python scripts",
+        "Built Tableau dashboards tracking 15 KPIs for the clinical operations team, used weekly by 40+ stakeholders",
+        "Identified a data pipeline bug that was silently dropping ~8% of claim records; fix recovered $2.1M in previously untracked costs",
+        "Cleaned and merged 5 disparate datasets (3.2M rows) for an actuarial model, improving model accuracy by 12%"
+      ],
+      "team_size": 6,
+      "promoted": false
+    }
+  ],
+
+  "projects": [
+    {
+      "name": "AI-Powered Resume & Job Match Engine",
+      "description": "End-to-end NLP system that semantically scores resumes against job descriptions using sentence-transformers and spaCy NER, generates optimized LaTeX resumes, and exposes a CLI interface.",
+      "technologies": ["Python", "sentence-transformers", "spaCy", "pdfplumber", "FastAPI", "Pydantic", "Jinja2", "LaTeX"],
+      "outcomes": [
+        "Built semantic scoring pipeline achieving meaningful differentiation between matched and unmatched resume-JD pairs",
+        "Implemented brace-balanced LaTeX parser to correctly extract nested commands from real resume templates",
+        "Designed modular engine/ architecture with zero FastAPI/DB dependencies so core logic is independently testable",
+        "56/56 pytest tests passing across scorer, extractor, and LaTeX builder modules"
+      ],
+      "url": "https://github.com/tksluangrath/ai-resume-matcher"
+    },
+    {
+      "name": "LLM Document Q&A with RAG",
+      "description": "Retrieval-augmented generation pipeline that lets users ask natural language questions over a corpus of PDF documents.",
+      "technologies": ["Python", "LangChain", "ChromaDB", "OpenAI", "pdfplumber", "FastAPI"],
+      "outcomes": [
+        "Reduced hallucination rate from ~35% (pure LLM) to ~8% (RAG) on internal evaluation set of 50 questions",
+        "Processed and indexed 200+ research papers in under 5 minutes using async chunking pipeline",
+        "Deployed as a FastAPI service with streaming responses, reducing perceived latency by 60%"
+      ]
+    },
+    {
+      "name": "Healthcare Claims Anomaly Detection",
+      "description": "Time-series anomaly detection model on insurance claims data to flag unusual billing patterns.",
+      "technologies": ["Python", "scikit-learn", "XGBoost", "pandas", "NumPy", "Matplotlib"],
+      "outcomes": [
+        "Achieved 91% precision at 0.1% false positive rate on held-out test set",
+        "Flagged 340 anomalous claims in first production month, escalated to compliance team",
+        "Reduced manual review queue by 23% by prioritizing high-confidence anomaly flags"
+      ]
+    }
+  ],
+
+  "skills": [
+    {"name": "Python", "proficiency": "expert", "years": 4},
+    {"name": "SQL", "proficiency": "expert", "years": 4},
+    {"name": "PostgreSQL", "proficiency": "intermediate", "years": 2},
+    {"name": "pandas", "proficiency": "expert", "years": 4},
+    {"name": "NumPy", "proficiency": "expert", "years": 3},
+    {"name": "scikit-learn", "proficiency": "expert", "years": 3},
+    {"name": "XGBoost", "proficiency": "intermediate", "years": 2},
+    {"name": "Matplotlib", "proficiency": "intermediate", "years": 3},
+    {"name": "Seaborn", "proficiency": "intermediate", "years": 2},
+    {"name": "Machine Learning", "proficiency": "expert", "years": 3},
+    {"name": "Statistical analysis", "proficiency": "expert", "years": 4},
+    {"name": "Deep Learning", "proficiency": "intermediate", "years": 1},
+    {"name": "LLMs", "proficiency": "intermediate", "years": 1},
+    {"name": "LangChain", "proficiency": "intermediate", "years": 1},
+    {"name": "NLP", "proficiency": "intermediate", "years": 2},
+    {"name": "RAG", "proficiency": "intermediate", "years": 1},
+    {"name": "FastAPI", "proficiency": "intermediate", "years": 1},
+    {"name": "REST API", "proficiency": "intermediate", "years": 1},
+    {"name": "spaCy", "proficiency": "intermediate", "years": 1},
+    {"name": "Git", "proficiency": "expert", "years": 4},
+    {"name": "Docker", "proficiency": "beginner", "years": 0.5},
+    {"name": "Streamlit", "proficiency": "intermediate", "years": 1},
+    {"name": "Jupyter Notebooks", "proficiency": "expert", "years": 4},
+    {"name": "Tableau", "proficiency": "intermediate", "years": 2},
+    {"name": "Excel", "proficiency": "expert", "years": 4},
+    {"name": "ChromaDB", "proficiency": "intermediate", "years": 1},
+    {"name": "SQLite", "proficiency": "intermediate", "years": 2}
+  ]
+}

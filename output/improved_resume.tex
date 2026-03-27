@@ -1,0 +1,160 @@
+%-------------------------
+% Resume in Latex
+% Template: Jake Gutierrez
+% License : MIT
+%------------------------
+
+\documentclass[letterpaper,11pt]{article}
+
+\usepackage{latexsym}
+\usepackage[empty]{fullpage}
+\usepackage{titlesec}
+\usepackage{marvosym}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage{verbatim}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{fancyhdr}
+\usepackage[english]{babel}
+\usepackage{tabularx}
+\input{glyphtounicode}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+\addtolength{\oddsidemargin}{-0.5in}
+\addtolength{\evensidemargin}{-0.5in}
+\addtolength{\textwidth}{1in}
+\addtolength{\topmargin}{-.5in}
+\addtolength{\textheight}{1.0in}
+
+\urlstyle{same}
+\raggedbottom
+\raggedright
+\setlength{\tabcolsep}{0in}
+
+\titleformat{\section}{
+  \vspace{-4pt}\scshape\raggedright\large
+}{}{0em}{}[\color{black}\titlerule \vspace{-5pt}]
+
+\pdfgentounicode=1
+
+%-------------------------
+% Custom commands
+\newcommand{\resumeItem}[1]{
+  \item\small{
+    {#1 \vspace{-2pt}}
+  }
+}
+
+\newcommand{\resumeSubheading}[4]{
+  \vspace{-2pt}\item
+    \begin{tabular*}{0.97\textwidth}[t]{l@{\extracolsep{\fill}}r}
+      \textbf{#1} & #2 \\
+      \textit{\small#3} & \textit{\small #4} \\
+    \end{tabular*}\vspace{-7pt}
+}
+
+\newcommand{\resumeSubSubheading}[2]{
+    \item
+    \begin{tabular*}{0.97\textwidth}{l@{\extracolsep{\fill}}r}
+      \textit{\small#1} & \textit{\small #2} \\
+    \end{tabular*}\vspace{-7pt}
+}
+
+\newcommand{\resumeProjectHeading}[2]{
+    \item
+    \begin{tabular*}{0.97\textwidth}{l@{\extracolsep{\fill}}r}
+      \small#1 & #2 \\
+    \end{tabular*}\vspace{-7pt}
+}
+
+\newcommand{\resumeSubItem}[1]{\resumeItem{#1}\vspace{-4pt}}
+\renewcommand\labelitemii{$\vcenter{\hbox{\tiny$\bullet$}}$}
+\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=0.15in, label={}]}
+\newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
+\newcommand{\resumeItemListStart}{\begin{itemize}}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-5pt}}
+
+%-------------------------------------------
+\begin{document}
+
+%----------HEADING----------
+\begin{center}
+    \textbf{\Huge \scshape Terrance Luangrath} \\ \vspace{1pt}
+    \small Manassas, VA $|$  $|$ \href{mailto:tksluangrath@gmail.com}{\underline{tksluangrath@gmail.com}}
+ $|$ \href{https://linkedin.com/in/terranceluangrath}{\underline{linkedin.com/in/terranceluangrath}} $|$ \href{https://tksluangrath.github.io}{\underline{tksluangrath.github.io}}\end{center}
+
+%-----------EDUCATION-----------
+\section{Education}
+  \resumeSubHeadingListStart
+    \resumeSubheading
+      {University of Virginia}{Charlottesville, VA}
+      {Master of Science in Data Science; GPA: 4.0}{Expected Aug. 2026}
+      \resumeItemListStart
+        \resumeItem{Relevant Coursework: Bayesian Machine Learning, Statistical Learning, Deep Learning}
+      \resumeItemListEnd
+    \resumeSubheading
+      {James Madison University}{Harrisonburg, VA}
+      {Bachelor of Science in Applied Mathematics, Minor in Data Analytics}{May 2024}
+  \resumeSubHeadingListEnd
+
+%-----------EXPERIENCE-----------
+\section{Experience}
+  \resumeSubHeadingListStart
+    \resumeSubheading
+      {Graduate Student Researcher}{Mar. 2025 -- Present}
+      {University of Virginia DART (Detecting, Analyzing, and Responding to Cyber Threats) Lab}{Charlottesville, VA}
+      \resumeItemListStart
+        \resumeItem{Conduct research on large language model (LLM) applications for Security Operations Center workflows, exploring AI-driven automation for threat detection and operational efficiency}
+        \resumeItem{Design and analyze surveys to gather operational data, applying statistical analysis and research methodologies to develop data-driven insights and recommendations}
+        \resumeItem{Collaborate with interdisciplinary research teams, presenting findings through technical reports and stakeholder presentations}
+      \resumeItemListEnd
+    \resumeSubheading
+      {Junior Data Analyst}{Jun. 2024 -- May 2025}
+      {ACTFORE}{Reston, VA}
+      \resumeItemListStart
+        \resumeItem{Processed and analyzed 1TB+ of sensitive data daily, applying data quality assurance and statistical validation techniques to maintain 99\%+ accuracy and regulatory compliance}
+        \resumeItem{Developed data-driven insights supporting business operations through exploratory data analysis, pattern identification, and actionable recommendations to cross-functional teams}
+        \resumeItem{Created automated reporting workflows and documentation for data processing pipelines, improving operational efficiency and knowledge transfer}
+      \resumeItemListEnd
+  \resumeSubHeadingListEnd
+
+%-----------PROJECTS-----------
+\section{Projects}
+    \resumeSubHeadingListStart
+      \resumeProjectHeading
+          {\textbf{AI Course Recommendation Agent} $|$ \emph{Python, LangChain, Streamlit} $|$ \href{https://github.com/tksluangrath/course-recommnedation-agent}{\underline{GitHub}}}{Feb. 2026}
+          \resumeItemListStart
+            \resumeItem{Developed end-to-end AI application integrating large language models (Llama 3.1) using LangChain framework, implementing hybrid recommendation system combining content-based and collaborative filtering approaches}
+            \resumeItem{Engineered data pipeline managing 2,759 courses across vector database (ChromaDB) and relational database (SQLite), applying semantic search and retrieval-augmented generation (RAG) techniques}
+          \resumeItemListEnd
+      \resumeProjectHeading
+          {\textbf{Credit Card Fraud Detection} $|$ \emph{Python, scikit-learn, XGBoost} $|$ \href{https://github.com/tksluangrath/fraud-detection-app}{\underline{GitHub}}}{Aug. 2025 -- Sept. 2025}
+          \resumeItemListStart
+            \resumeItem{Built machine learning classification system analyzing 6.3M+ transactions, implementing multiple algorithms (Logistic Regression, Random Forest, XGBoost, SVM) and achieving 95\% recall and accuracy}
+            \resumeItem{Applied advanced techniques for imbalanced datasets including SMOTE, precision-recall optimization, and systematic feature engineering to detect anomalous patterns at scale}
+          \resumeItemListEnd
+      \resumeProjectHeading
+          {\textbf{Energy Demand Forecasting} $|$ \emph{Python, XGBoost, Time Series} $|$ \href{https://github.com/tksluangrath/energy-forecast-xgboost}{\underline{GitHub}}}{May 2025}
+          \resumeItemListStart
+            \resumeItem{Developed predictive model for electricity demand using XGBoost and time series analysis on 121K+ hourly records, achieving RMSE of 1,644 MW through systematic feature engineering}
+            \resumeItem{Engineered temporal features (hour, day, month, lag variables) to capture seasonal patterns and consumption trends, demonstrating statistical modeling and forecasting capabilities}
+          \resumeItemListEnd
+    \resumeSubHeadingListEnd
+
+%-----------TECHNICAL SKILLS-----------
+\section{Technical Skills}
+ \begin{itemize}[leftmargin=0.15in, label={}]
+    \small{\item{
+     \textbf{Programming \& Machine Learning}{: Python (Pandas, NumPy, scikit-learn, XGBoost, Matplotlib, Seaborn), R, SQL (PostgreSQL, MySQL), Statistical analysis, Machine Learning} \\
+     \textbf{Data Science \& AI}{: Deep Learning, LLMs, LangChain, Statistical modeling, Feature engineering, Model evaluation, Time series analysis, Anomaly detection, FastAPI, REST API} \\
+     \textbf{Tools \& Platforms}{: Git, Jupyter Notebooks, Streamlit, Tableau, Excel, ChromaDB, SQLite, Docker} \\
+    }}
+ \end{itemize}
+
+%-------------------------------------------
+\end{document}

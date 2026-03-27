@@ -1,0 +1,76 @@
+Senior Python Backend Engineer
+Acme Technologies — Remote (US)
+
+--- About the Role ---
+
+We are looking for a Senior Python Backend Engineer to join our platform team and help us scale our
+core services from 10 million to 100 million users. You will design and own backend systems that
+power real-time data pipelines, developer-facing REST APIs, and internal tooling used by over 200
+engineers.
+
+This is a high-impact role for an engineer who cares deeply about correctness, observability, and
+system reliability. You will collaborate directly with product, data, and infrastructure teams, and
+your work will ship to production within your first two weeks.
+
+--- About the Team ---
+
+The platform engineering team owns the foundational services that all other teams depend on: API
+gateways, authentication, data ingestion pipelines, and our internal developer platform. We operate
+with a strong bias toward automation, thorough code review, and on-call discipline. We have a small
+team of six engineers, and every member ships independently.
+
+--- What You Will Do ---
+
+- Design, build, and maintain high-throughput Python backend services using FastAPI
+- Own the full lifecycle of multiple microservices: architecture, implementation, testing, deployment
+- Write and maintain PostgreSQL schemas, migrations, and query optimizations
+- Build and extend REST APIs consumed by web, mobile, and third-party integrations
+- Containerize services with Docker and manage deployments on AWS (ECS, Lambda, S3, RDS)
+- Collaborate with the DevOps team to improve CI/CD pipelines and infrastructure-as-code
+- Participate in on-call rotation and drive post-mortems for incidents
+- Mentor junior engineers through code review and pair programming sessions
+- Write clear technical documentation and ADRs (Architecture Decision Records)
+
+--- Requirements ---
+
+- 5+ years of professional software engineering experience
+- 3+ years of production Python experience (Python 3.10+)
+- Strong experience building and maintaining REST APIs at scale
+- Proficiency with FastAPI or equivalent async Python framework (Django, Flask, Litestar)
+- Deep knowledge of PostgreSQL: schema design, query tuning, indexing strategies
+- Experience with Docker for local development and production deployments
+- Hands-on AWS experience: EC2, ECS, RDS, S3, CloudWatch, and IAM
+- Solid understanding of Git workflows (trunk-based development, PR reviews, semantic versioning)
+- Demonstrated experience writing unit, integration, and end-to-end tests (pytest preferred)
+- Strong grasp of software engineering fundamentals: SOLID principles, clean architecture, DRY
+
+--- Nice to Have ---
+
+- Experience with Kubernetes (EKS) or container orchestration at scale
+- Familiarity with message queues: Kafka, SQS, or RabbitMQ
+- Exposure to Terraform or other infrastructure-as-code tools
+- Experience with Redis for caching or distributed locking
+- Background in data engineering or experience with tools like Airflow, Spark, or dbt
+- GraphQL API design experience
+- Open-source contributions or public GitHub portfolio
+
+--- What We Offer ---
+
+- Competitive base salary: $160,000–$190,000 depending on experience
+- Equity: 0.05%–0.15% options (4-year vest, 1-year cliff)
+- 100% remote, async-first culture with optional team offsites twice per year
+- $3,000 annual learning and development budget
+- Health, dental, and vision insurance (100% covered for employee)
+- Unlimited PTO with a 15-day minimum
+- Top-of-the-line MacBook Pro or Linux workstation of your choice
+
+--- Interview Process ---
+
+1. 30-minute recruiter screen
+2. 60-minute technical phone screen with a senior engineer (system design + Python fundamentals)
+3. Take-home project (4–6 hours): build a small FastAPI service with PostgreSQL and Docker
+4. 3-hour virtual onsite: system design, code review exercise, and culture fit
+5. Offer within 48 hours of final interview
+
+Acme Technologies is an equal opportunity employer. We welcome applicants of all backgrounds and
+actively work to build an inclusive, diverse team.

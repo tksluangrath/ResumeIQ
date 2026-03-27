@@ -1,0 +1,40 @@
+databases:
+  - name: resumematch-db
+    databaseName: resumematch
+    user: resumematch
+    plan: free
+
+services:
+  - type: web
+    name: resumematch-api
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    plan: free
+    autoDeploy: true
+    healthCheckPath: /health
+    releaseCommand: alembic upgrade head
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: resumematch-db
+          property: connectionString
+      - key: APP_ENV
+        value: production
+      - key: DEBUG
+        value: "false"
+      - key: CORS_ORIGINS
+        value: '["*"]'
+      - key: LLM_PROVIDER
+        value: anthropic
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: JWT_ALGORITHM
+        value: HS256
+      - key: JWT_EXPIRY_MINUTES
+        value: "60"
+      - key: SPACY_MODEL
+        value: en_core_web_lg
+      - key: SENTENCE_TRANSFORMER_MODEL
+        value: all-MiniLM-L6-v2
