@@ -16,4 +16,5 @@ RUN python -m spacy download en_core_web_lg
 
 COPY . .
 
-CMD ["sh", "-c", "uvicorn api.main:app --host 0.0.0.0 --port ${PORT:-8000}"]
+RUN chmod +x start.sh
+CMD ["./start.sh"]

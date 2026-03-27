@@ -12,7 +12,6 @@ services:
     plan: free
     autoDeploy: true
     healthCheckPath: /health
-    releaseCommand: alembic upgrade head
     envVars:
       - key: DATABASE_URL
         fromDatabase:
