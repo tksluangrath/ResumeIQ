@@ -30,7 +30,16 @@ def create_llm(settings: Any) -> BaseLLM:
             api_key=settings.OPENAI_API_KEY,
             timeout=settings.LLM_TIMEOUT_SECONDS,
         )
+    elif provider == "deepseek":
+        from engine.llm.openai_llm import OpenAILLM
+
+        return OpenAILLM(
+            api_key=settings.DEEPSEEK_API_KEY,
+            base_url=settings.DEEPSEEK_BASE_URL,
+            model=settings.DEEPSEEK_MODEL,
+            timeout=settings.LLM_TIMEOUT_SECONDS,
+        )
     else:
         raise ValueError(
-            f"Unknown LLM_PROVIDER '{provider}'. Valid options: ollama, claude, openai"
+            f"Unknown LLM_PROVIDER '{provider}'. Valid options: ollama, claude, openai, deepseek"
         )

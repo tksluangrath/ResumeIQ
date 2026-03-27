@@ -25,6 +25,9 @@ class Settings(BaseSettings):
     OLLAMA_MODEL: str = "llama3.1:8b"
     ANTHROPIC_API_KEY: str = ""
     OPENAI_API_KEY: str = ""
+    DEEPSEEK_API_KEY: str = ""
+    DEEPSEEK_BASE_URL: str = "https://api.deepseek.com"
+    DEEPSEEK_MODEL: str = "deepseek-chat"
     LLM_TIMEOUT_SECONDS: int = 120
     # Database (Phase 4)
     DATABASE_URL: str = "postgresql+asyncpg://postgres:postgres@localhost:5432/resumematch"

@@ -4,16 +4,26 @@ from engine.llm.base import BaseLLM, LLMConnectionError, LLMResponseError
 
 
 class OpenAILLM(BaseLLM):
-    def __init__(self, api_key: str, timeout: int = 120) -> None:
+    def __init__(
+        self,
+        api_key: str,
+        timeout: int = 120,
+        base_url: str | None = None,
+        model: str = "gpt-4o-mini",
+    ) -> None:
         try:
             import openai
         except ImportError:
             raise ImportError("openai package required: pip install openai")
 
         if not api_key:
-            raise ValueError("OPENAI_API_KEY is required for OpenAILLM")
+            raise ValueError("API key is required for OpenAILLM")
 
-        self._client = openai.OpenAI(api_key=api_key)
+        kwargs: dict = {"api_key": api_key}
+        if base_url:
+            kwargs["base_url"] = base_url
+        self._client = openai.OpenAI(**kwargs)
+        self._model = model
         self._timeout = timeout
 
     def complete(self, prompt: str) -> str:
@@ -21,7 +31,7 @@ class OpenAILLM(BaseLLM):
 
         try:
             response = self._client.chat.completions.create(
-                model="gpt-4o-mini",
+                model=self._model,
                 max_tokens=1024,
                 messages=[{"role": "user", "content": prompt}],
             )
@@ -41,4 +51,4 @@ class OpenAILLM(BaseLLM):
 
     @property
     def provider_name(self) -> str:
-        return "openai/gpt-4o-mini"
+        return f"openai/{self._model}"
