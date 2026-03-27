@@ -29,11 +29,12 @@ PLAN_SCAN_LIMITS: dict[str, int | None] = {
 async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     from api.db import make_engine
 
+    settings = get_settings()
     _state["extractor"] = EntityExtractor()
     _state["matcher"] = SemanticMatcher()
-    _state["matcher"].encode("warmup")  # forces SentenceTransformer load now, not on first request
+    if settings.APP_ENV != "production":
+        _state["matcher"].encode("warmup")  # forces SentenceTransformer load now, not on first request
     _state["scorer"] = MatchScorer()
-    settings = get_settings()
     _state["llm"] = create_llm(settings)
     engine, session_factory = make_engine()
     _state["db_engine"] = engine
