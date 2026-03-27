@@ -12,7 +12,7 @@ APP_VERSION = "0.4.0"
 def create_app() -> FastAPI:
     settings = get_settings()
     app = FastAPI(
-        title="Resume Match API",
+        title="ResumeIQ API",
         version=APP_VERSION,
         lifespan=lifespan,
     )

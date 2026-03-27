@@ -30,8 +30,8 @@ class Settings(BaseSettings):
     DEEPSEEK_MODEL: str = "deepseek-chat"
     LLM_TIMEOUT_SECONDS: int = 120
     # Database (Phase 4)
-    DATABASE_URL: str = "postgresql+asyncpg://postgres:postgres@localhost:5432/resumematch"
-    TEST_DATABASE_URL: str = "postgresql+asyncpg://postgres:postgres@localhost:5432/resumematch_test"
+    DATABASE_URL: str = "postgresql+asyncpg://postgres:postgres@localhost:5432/resumeiq"
+    TEST_DATABASE_URL: str = "postgresql+asyncpg://postgres:postgres@localhost:5432/resumeiq_test"
     # JWT (Phase 4)
     JWT_SECRET: str = "change-me-in-production-use-openssl-rand-hex-32"
     JWT_ALGORITHM: str = "HS256"

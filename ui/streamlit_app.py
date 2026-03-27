@@ -23,7 +23,7 @@ _MIN_JD_LENGTH: int = 50
 # ---------------------------------------------------------------------------
 
 st.set_page_config(
-    page_title="AI Resume Matcher",
+    page_title="ResumeIQ",
     page_icon=":page_facing_up:",
     layout="wide",
     initial_sidebar_state="expanded",
@@ -619,7 +619,7 @@ with tab_profile:
         with st.expander(label, expanded=not proj.get("name")):
             p1, p2 = st.columns(2)
             with p1:
-                proj["name"] = st.text_input("Project Name", value=proj.get("name", ""), key=f"pj_name_{idx}", placeholder="AI Resume Matcher")
+                proj["name"] = st.text_input("Project Name", value=proj.get("name", ""), key=f"pj_name_{idx}", placeholder="ResumeIQ")
                 proj["url"] = st.text_input("URL (optional)", value=proj.get("url") or "", key=f"pj_url_{idx}", placeholder="https://github.com/…")
             with p2:
                 proj["technologies"] = st.text_input(

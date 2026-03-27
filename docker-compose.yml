@@ -4,13 +4,13 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: resumematch
+      POSTGRES_DB: resumeiq
     ports:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d resumematch"]
+      test: ["CMD-SHELL", "pg_isready -U postgres -d resumeiq"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -29,7 +29,7 @@ services:
     env_file: .env
     environment:
       # Inside Docker the DB host is 'postgres', not 'localhost'
-      DATABASE_URL: postgresql+asyncpg://postgres:postgres@postgres:5432/resumematch
+      DATABASE_URL: postgresql+asyncpg://postgres:postgres@postgres:5432/resumeiq
     depends_on:
       postgres:
         condition: service_healthy

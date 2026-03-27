@@ -6,7 +6,7 @@ from pathlib import Path
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        prog="resume-matcher",
+        prog="resumeiq",
         description="Score a resume PDF against a job description and produce a JSON match report.",
     )
     parser.add_argument(
