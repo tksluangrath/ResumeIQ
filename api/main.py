@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from api.dependencies import lifespan
 from api.models import HealthResponse
-from api.routers import auth, history, improve, match, suggest
+from api.routers import auth, billing, history, improve, match, suggest
 from config import get_settings
 
 APP_VERSION = "0.4.0"
@@ -27,6 +27,7 @@ def create_app() -> FastAPI:
     app.include_router(suggest.router)
     app.include_router(auth.router)
     app.include_router(history.router)
+    app.include_router(billing.router)
 
     @app.get("/health", response_model=HealthResponse)
     def health() -> HealthResponse:

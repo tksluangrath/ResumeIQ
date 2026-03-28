@@ -43,6 +43,9 @@ class User(Base):
     is_active: Mapped[bool] = mapped_column(
         Boolean, nullable=False, server_default="true", default=True
     )
+    stripe_customer_id: Mapped[str | None] = mapped_column(
+        String(100), nullable=True, index=True, default=None
+    )
 
     scans: Mapped[list[Scan]] = relationship(
         "Scan", back_populates="user", cascade="all, delete-orphan"

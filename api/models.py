@@ -115,6 +115,29 @@ class UserPublic(BaseModel):
     created_at: datetime
 
 
+# ── Phase 4: Billing ─────────────────────────────────────────────────────────
+
+class CheckoutResponse(BaseModel):
+    model_config = ConfigDict(frozen=True)
+
+    checkout_url: str
+
+
+class PortalResponse(BaseModel):
+    model_config = ConfigDict(frozen=True)
+
+    portal_url: str
+
+
+class BillingStatusResponse(BaseModel):
+    model_config = ConfigDict(frozen=True)
+
+    plan: str
+    scan_count: int
+    scan_limit: int | None  # None = unlimited
+    stripe_customer_id: str | None
+
+
 # ── Phase 4: Scan History ────────────────────────────────────────────────────
 
 class ScanRecord(BaseModel):

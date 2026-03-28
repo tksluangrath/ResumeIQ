@@ -36,6 +36,12 @@ class Settings(BaseSettings):
     JWT_SECRET: str = "change-me-in-production-use-openssl-rand-hex-32"
     JWT_ALGORITHM: str = "HS256"
     JWT_EXPIRY_MINUTES: int = 60
+    # Stripe (Phase 4 Track 2)
+    STRIPE_SECRET_KEY: str = ""
+    STRIPE_PUBLISHABLE_KEY: str = ""
+    STRIPE_WEBHOOK_SECRET: str = ""
+    STRIPE_PRICE_STARTER: str = ""
+    STRIPE_PRICE_PRO: str = ""
 
     @field_validator("DATABASE_URL", mode="before")
     @classmethod
