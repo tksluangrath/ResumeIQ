@@ -17,7 +17,18 @@ target_metadata = Base.metadata
 
 
 def get_url() -> str:
-    return get_settings().DATABASE_URL
+    url = get_settings().DATABASE_URL
+    # Belt-and-suspenders coercion — Railway sometimes injects postgres:// or postgresql://
+    # even when the Pydantic validator runs, depending on import order / caching.
+    if url.startswith("postgres://"):
+        url = url.replace("postgres://", "postgresql+asyncpg://", 1)
+    elif url.startswith("postgresql://") and "+asyncpg" not in url:
+        url = url.replace("postgresql://", "postgresql+asyncpg://", 1)
+    if not url.startswith("postgresql+asyncpg://"):
+        raise ValueError(
+            f"DATABASE_URL must start with postgresql+asyncpg:// — got: {url[:40]!r}"
+        )
+    return url
 
 
 def run_migrations_offline() -> None:
