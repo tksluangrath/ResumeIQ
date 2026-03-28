@@ -17,9 +17,7 @@ target_metadata = Base.metadata
 
 
 def get_url() -> str:
-    url = get_settings().DATABASE_URL
-    # Belt-and-suspenders coercion — Railway sometimes injects postgres:// or postgresql://
-    # even when the Pydantic validator runs, depending on import order / caching.
+    url = get_settings().DATABASE_URL.strip()
     if url.startswith("postgres://"):
         url = url.replace("postgres://", "postgresql+asyncpg://", 1)
     elif url.startswith("postgresql://") and "+asyncpg" not in url:
