@@ -49,7 +49,7 @@ class TestBillingStatus:
         body = resp.json()
         assert body["plan"] == "free"
         assert body["scan_count"] == 0
-        assert body["scan_limit"] == 3
+        assert body["scan_limit"] == 5
         assert body["stripe_customer_id"] is None
 
     async def test_pro_plan_has_no_limit(

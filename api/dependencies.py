@@ -19,8 +19,8 @@ from engine.scorer import MatchScorer
 _state: dict[str, Any] = {}
 
 PLAN_SCAN_LIMITS: dict[str, int | None] = {
-    "free": 3,
-    "starter": 20,
+    "free": 5,
+    "starter": 25,
     "pro": None,  # None = unlimited
 }
 
@@ -117,7 +117,7 @@ async def require_current_user(
 
 
 async def check_and_increment_scan(user: Any, db: AsyncSession) -> None:
-    """Enforce monthly scan limit, reset counter if 30+ days elapsed, increment on success.
+    """Enforce weekly scan limit, reset counter if 7+ days elapsed, increment on success.
 
     Raises HTTP 429 if the user is at or over their plan limit.
     """
@@ -126,7 +126,7 @@ async def check_and_increment_scan(user: Any, db: AsyncSession) -> None:
     if reset_at.tzinfo is None:
         reset_at = reset_at.replace(tzinfo=timezone.utc)
 
-    if (now - reset_at) >= timedelta(days=30):
+    if (now - reset_at) >= timedelta(days=7):
         user.scan_count = 0
         user.scan_reset_at = now
 
@@ -134,7 +134,7 @@ async def check_and_increment_scan(user: Any, db: AsyncSession) -> None:
     if limit is not None and user.scan_count >= limit:
         raise HTTPException(
             status_code=429,
-            detail=f"Scan limit reached for {user.plan} plan ({limit}/month). Upgrade to continue.",
+            detail=f"Scan limit reached for {user.plan} plan ({limit}/week). Upgrade to continue.",
         )
 
     user.scan_count += 1

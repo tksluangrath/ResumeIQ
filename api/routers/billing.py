@@ -15,8 +15,8 @@ from config import Settings, get_settings
 router = APIRouter(prefix="/billing", tags=["billing"])
 
 PLAN_SCAN_LIMITS: dict[str, int | None] = {
-    "free": 3,
-    "starter": 20,
+    "free": 5,
+    "starter": 25,
     "pro": None,
 }
 
