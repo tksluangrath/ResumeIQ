@@ -70,7 +70,7 @@ async def match_resume(
     resume_entities = extractor.extract(resume_text)
     jd_entities = extractor.extract(jd)
     semantic_sim = matcher.similarity(resume_text, jd)
-    report = scorer.score(resume_entities, jd_entities, semantic_sim)
+    report = scorer.score(resume_entities, jd_entities, semantic_sim, jd_text=jd)
 
     if current_user is not None:
         await check_and_increment_scan(current_user, db)
@@ -85,6 +85,10 @@ async def match_resume(
     return MatchResponse(
         overall_score=report.overall_score,
         breakdown=report.breakdown,
+        gap_classification=report.gap_classification,
+        apply_recommendation=report.apply_recommendation,
+        ats_keywords=report.ats_keywords,
+        role_archetype=report.role_archetype,
         recommendations=report.recommendations,
         processing_time_ms=int((time.monotonic() - start_ms) * 1000),
     )

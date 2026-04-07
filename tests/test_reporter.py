@@ -8,7 +8,7 @@ from pathlib import Path
 import pytest
 
 from engine.reporter import generate_report
-from engine.scorer import MatchReport, MatchScorer, ScoreBreakdown, SkillMatchResult
+from engine.scorer import GapClassification, MatchReport, MatchScorer, ScoreBreakdown, SkillMatchResult
 
 
 def _make_report(
@@ -16,18 +16,23 @@ def _make_report(
     matched: list[str] | None = None,
     missing: list[str] | None = None,
 ) -> MatchReport:
+    missing_skills = missing or ["Docker", "AWS"]
     return MatchReport(
         overall_score=score,
         breakdown=ScoreBreakdown(
             semantic_similarity=0.60,
             skill_match=SkillMatchResult(
                 matched=matched or ["Python", "SQL"],
-                missing=missing or ["Docker", "AWS"],
+                missing=missing_skills,
                 match_rate=0.50,
             ),
             title_relevance=0.40,
             experience_match="senior_required_junior_detected",
         ),
+        gap_classification=GapClassification(hard_blockers=[], nice_to_haves=missing_skills),
+        apply_recommendation="borderline",
+        ats_keywords=missing_skills[:15],
+        role_archetype="general",
         recommendations=["Add Docker", "Add AWS"],
     )
 

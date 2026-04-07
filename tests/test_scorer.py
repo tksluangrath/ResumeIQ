@@ -1,7 +1,17 @@
 import pytest
 
 from engine.extractor import ResumeEntities
-from engine.scorer import MatchReport, MatchScorer, _detect_level, _experience_level_score, _normalize_skill
+from engine.scorer import (
+    MatchReport,
+    MatchScorer,
+    _apply_recommendation,
+    _classify_gaps,
+    _detect_archetype,
+    _detect_level,
+    _experience_level_score,
+    _extract_ats_keywords,
+    _normalize_skill,
+)
 
 
 def make_scorer() -> MatchScorer:
@@ -289,3 +299,130 @@ class TestSkillAliasNormalization:
 
     def test_normalize_skill_known_alias(self) -> None:
         assert _normalize_skill("k8s") == "kubernetes"
+
+
+class TestApplyRecommendation:
+    def test_strong_match_at_75(self) -> None:
+        assert _apply_recommendation(75.0) == "strong_match"
+
+    def test_strong_match_above_75(self) -> None:
+        assert _apply_recommendation(90.0) == "strong_match"
+
+    def test_good_match_at_60(self) -> None:
+        assert _apply_recommendation(60.0) == "good_match"
+
+    def test_good_match_at_74(self) -> None:
+        assert _apply_recommendation(74.9) == "good_match"
+
+    def test_borderline_at_45(self) -> None:
+        assert _apply_recommendation(45.0) == "borderline"
+
+    def test_borderline_at_59(self) -> None:
+        assert _apply_recommendation(59.9) == "borderline"
+
+    def test_skip_below_45(self) -> None:
+        assert _apply_recommendation(44.9) == "skip"
+
+    def test_skip_at_zero(self) -> None:
+        assert _apply_recommendation(0.0) == "skip"
+
+    def test_report_contains_apply_recommendation(self) -> None:
+        scorer = make_scorer()
+        shared = ["Python", "FastAPI", "Docker", "AWS", "Git"]
+        report = scorer.score(
+            make_entities(skills=shared, job_titles=["Senior Engineer"]),
+            make_entities(skills=shared, job_titles=["Senior Engineer"]),
+            semantic_sim=0.95,
+        )
+        assert report.apply_recommendation in ("strong_match", "good_match", "borderline", "skip")
+
+
+class TestGapClassification:
+    def test_hard_blocker_when_skill_appears_twice(self) -> None:
+        jd_text = "We need Python experience. Python is required for this role."
+        result = _classify_gaps(["Python"], jd_text)
+        assert "Python" in result.hard_blockers
+        assert "Python" not in result.nice_to_haves
+
+    def test_nice_to_have_when_skill_appears_once(self) -> None:
+        jd_text = "Experience with Docker is a plus."
+        result = _classify_gaps(["Docker"], jd_text)
+        assert "Docker" in result.nice_to_haves
+        assert "Docker" not in result.hard_blockers
+
+    def test_empty_jd_text_puts_all_in_nice_to_haves(self) -> None:
+        result = _classify_gaps(["Python", "Docker"], "")
+        assert result.hard_blockers == []
+        assert set(result.nice_to_haves) == {"Python", "Docker"}
+
+    def test_empty_missing_skills(self) -> None:
+        result = _classify_gaps([], "Some job description text.")
+        assert result.hard_blockers == []
+        assert result.nice_to_haves == []
+
+    def test_report_contains_gap_classification(self) -> None:
+        scorer = make_scorer()
+        resume = make_entities(skills=["Python"])
+        jd = make_entities(skills=["Python", "Kubernetes", "Terraform"])
+        report = scorer.score(resume, jd, semantic_sim=0.50)
+        assert hasattr(report.gap_classification, "hard_blockers")
+        assert hasattr(report.gap_classification, "nice_to_haves")
+
+
+class TestAtsKeywords:
+    def test_returns_missing_skills_limited_to_15(self) -> None:
+        missing = [f"Skill{i}" for i in range(20)]
+        result = _extract_ats_keywords(missing, "")
+        assert len(result) <= 15
+
+    def test_more_frequent_skills_ranked_first(self) -> None:
+        jd_text = "Kubernetes Kubernetes Kubernetes. Docker Docker. Terraform."
+        result = _extract_ats_keywords(["Kubernetes", "Docker", "Terraform"], jd_text)
+        assert result[0] == "Kubernetes"
+        assert result[1] == "Docker"
+
+    def test_empty_missing_returns_empty(self) -> None:
+        result = _extract_ats_keywords([], "Some job description text.")
+        assert result == []
+
+    def test_report_contains_ats_keywords(self) -> None:
+        scorer = make_scorer()
+        resume = make_entities(skills=["Python"])
+        jd = make_entities(skills=["Python", "Kubernetes", "Terraform"])
+        report = scorer.score(resume, jd, semantic_sim=0.50)
+        assert isinstance(report.ats_keywords, list)
+
+
+class TestRoleArchetypeDetection:
+    def test_detects_llmops(self) -> None:
+        jd = "We need someone experienced in LLM observability, evals, and monitoring pipelines."
+        assert _detect_archetype(jd) == "llmops"
+
+    def test_detects_agentic(self) -> None:
+        jd = "Build multi-agent systems with orchestration and HITL workflows."
+        assert _detect_archetype(jd) == "agentic"
+
+    def test_detects_ai_pm(self) -> None:
+        jd = "Manage the AI product roadmap, write PRDs, and run product discovery sessions."
+        assert _detect_archetype(jd) == "ai_pm"
+
+    def test_detects_transformation(self) -> None:
+        jd = "Lead AI adoption and change management across the organization."
+        assert _detect_archetype(jd) == "transformation"
+
+    def test_returns_general_for_no_signals(self) -> None:
+        jd = "We are looking for a software developer to join our team."
+        assert _detect_archetype(jd) == "general"
+
+    def test_returns_general_for_empty_text(self) -> None:
+        assert _detect_archetype("") == "general"
+
+    def test_report_contains_role_archetype(self) -> None:
+        scorer = make_scorer()
+        resume = make_entities(skills=["Python"])
+        jd = make_entities(skills=["Python"])
+        report = scorer.score(
+            resume, jd, semantic_sim=0.70,
+            jd_text="Build multi-agent orchestration systems.",
+        )
+        assert report.role_archetype == "agentic"

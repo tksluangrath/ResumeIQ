@@ -5,7 +5,7 @@ from datetime import datetime
 
 from pydantic import BaseModel, ConfigDict, EmailStr, field_validator
 
-from engine.scorer import ScoreBreakdown
+from engine.scorer import GapClassification, ScoreBreakdown
 
 
 class WeakBullet(BaseModel):
@@ -25,6 +25,10 @@ class MatchResponse(BaseModel):
 
     overall_score: float
     breakdown: ScoreBreakdown
+    gap_classification: GapClassification
+    apply_recommendation: str
+    ats_keywords: list[str]
+    role_archetype: str
     recommendations: list[str]
     processing_time_ms: int
 
@@ -112,10 +116,19 @@ class UserPublic(BaseModel):
     email: str
     plan: str
     scan_count: int
+    scan_credits: int
     created_at: datetime
 
 
 # ── Phase 4: Billing ─────────────────────────────────────────────────────────
+
+class CheckoutRequest(BaseModel):
+    model_config = ConfigDict(frozen=True)
+
+    plan: str
+    success_url: str
+    cancel_url: str
+
 
 class CheckoutResponse(BaseModel):
     model_config = ConfigDict(frozen=True)
@@ -135,6 +148,7 @@ class BillingStatusResponse(BaseModel):
     plan: str
     scan_count: int
     scan_limit: int | None  # None = unlimited
+    scan_credits: int
     stripe_customer_id: str | None
 
 

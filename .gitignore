@@ -24,6 +24,14 @@ htmlcov/
 # Alembic (keep versions/ committed, ignore pycache inside it)
 alembic/versions/__pycache__/
 
+# Claude Code (local only)
+.claude/
+CLAUDE.md
+DEVLOG.md
+MISTAKES.md
+PROJECT_PLAN.md
+SETUP.md
+
 # IDE
 .vscode/
 .idea/

@@ -42,6 +42,7 @@ class Settings(BaseSettings):
     STRIPE_WEBHOOK_SECRET: str = ""
     STRIPE_PRICE_STARTER: str = ""
     STRIPE_PRICE_PRO: str = ""
+    STRIPE_PRICE_PER_SCAN: str = ""
 
     @field_validator("DATABASE_URL", mode="before")
     @classmethod

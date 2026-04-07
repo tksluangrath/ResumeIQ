@@ -130,6 +130,11 @@ async def check_and_increment_scan(user: Any, db: AsyncSession) -> None:
         user.scan_count = 0
         user.scan_reset_at = now
 
+    if user.scan_credits > 0:
+        user.scan_credits -= 1
+        await db.commit()
+        return
+
     limit: int | None = PLAN_SCAN_LIMITS.get(user.plan)
     if limit is not None and user.scan_count >= limit:
         raise HTTPException(

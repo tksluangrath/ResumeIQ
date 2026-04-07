@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import pytest
 from engine.llm.base import BaseLLM
-from engine.scorer import MatchReport, ScoreBreakdown, SkillMatchResult
+from engine.scorer import GapClassification, MatchReport, ScoreBreakdown, SkillMatchResult
 from engine.suggester import SuggestionResult, _parse_json_list, suggest
 
 
@@ -26,18 +26,23 @@ class StubLLM(BaseLLM):
 
 
 def _make_report() -> MatchReport:
+    missing = ["PostgreSQL", "Docker"]
     return MatchReport(
         overall_score=0.72,
         breakdown=ScoreBreakdown(
             semantic_similarity=0.75,
             skill_match=SkillMatchResult(
                 matched=["Python", "FastAPI"],
-                missing=["PostgreSQL", "Docker"],
+                missing=missing,
                 match_rate=0.5,
             ),
             title_relevance=0.8,
             experience_match="mid-level",
         ),
+        gap_classification=GapClassification(hard_blockers=[], nice_to_haves=missing),
+        apply_recommendation="borderline",
+        ats_keywords=missing,
+        role_archetype="general",
         recommendations=["Add Docker to your resume"],
     )
 

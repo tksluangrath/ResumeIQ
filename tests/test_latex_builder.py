@@ -23,7 +23,35 @@ from engine.latex_builder import (
 )
 from engine.optimizer import optimize
 from engine.profile import SkillEntry, UserProfile
-from engine.scorer import MatchReport, ScoreBreakdown, SkillMatchResult
+from engine.scorer import GapClassification, MatchReport, ScoreBreakdown, SkillMatchResult
+
+
+def _make_match_report(
+    score: float,
+    matched: list[str],
+    missing: list[str],
+    title_relevance: float = 0.65,
+    experience_match: str = "level_not_detected",
+    recommendations: list[str] | None = None,
+) -> MatchReport:
+    return MatchReport(
+        overall_score=score,
+        breakdown=ScoreBreakdown(
+            semantic_similarity=round(score / 100, 2),
+            skill_match=SkillMatchResult(
+                matched=matched,
+                missing=missing,
+                match_rate=len(matched) / (len(matched) + len(missing)) if (matched or missing) else 0.0,
+            ),
+            title_relevance=title_relevance,
+            experience_match=experience_match,
+        ),
+        gap_classification=GapClassification(hard_blockers=[], nice_to_haves=missing),
+        apply_recommendation="borderline",
+        ats_keywords=missing[:15],
+        role_archetype="general",
+        recommendations=recommendations or [],
+    )
 
 SAMPLES_DIR = Path(__file__).parent.parent / "samples"
 TEX_FILE = SAMPLES_DIR / "resume_template.tex"
@@ -85,22 +113,13 @@ def sample_resume_data() -> ResumeData:
 
 @pytest.fixture
 def sample_match_report() -> MatchReport:
-    return MatchReport(
-        overall_score=62.0,
-        breakdown=ScoreBreakdown(
-            semantic_similarity=0.72,
-            skill_match=SkillMatchResult(
-                matched=["Python", "SQL", "Git"],
-                missing=["Kubernetes", "AWS", "FastAPI"],
-                match_rate=0.50,
-            ),
-            title_relevance=0.65,
-            experience_match="junior_detected_mid_required",
-        ),
-        recommendations=[
-            "Add Kubernetes to your skills section",
-            "Highlight AWS experience",
-        ],
+    return _make_match_report(
+        score=62.0,
+        matched=["Python", "SQL", "Git"],
+        missing=["Kubernetes", "AWS", "FastAPI"],
+        title_relevance=0.65,
+        experience_match="junior_detected_mid_required",
+        recommendations=["Add Kubernetes to your skills section", "Highlight AWS experience"],
     )
 
 
@@ -234,19 +253,12 @@ class TestOptimizer:
         assert len(result.notes) > 0
 
     def test_already_present_skills_not_re_added(self, sample_resume_data):
-        report = MatchReport(
-            overall_score=80.0,
-            breakdown=ScoreBreakdown(
-                semantic_similarity=0.80,
-                skill_match=SkillMatchResult(
-                    matched=["Python"],
-                    missing=["Python"],   # already in the resume
-                    match_rate=1.0,
-                ),
-                title_relevance=0.8,
-                experience_match="matched",
-            ),
-            recommendations=[],
+        report = _make_match_report(
+            score=80.0,
+            matched=["Python"],
+            missing=["Python"],   # already in the resume
+            title_relevance=0.8,
+            experience_match="matched",
         )
         result = optimize(report, sample_resume_data)
         assert "Python" not in result.injected_skills
@@ -454,19 +466,12 @@ class TestUnescapeLatexEdgeCases:
 
 class TestOptimizerEdgeCases:
     def test_no_missing_skills_nothing_injected(self, sample_resume_data):
-        report = MatchReport(
-            overall_score=90.0,
-            breakdown=ScoreBreakdown(
-                semantic_similarity=0.90,
-                skill_match=SkillMatchResult(
-                    matched=["Python", "SQL", "Git"],
-                    missing=[],
-                    match_rate=1.0,
-                ),
-                title_relevance=0.85,
-                experience_match="senior_match",
-            ),
-            recommendations=[],
+        report = _make_match_report(
+            score=90.0,
+            matched=["Python", "SQL", "Git"],
+            missing=[],
+            title_relevance=0.85,
+            experience_match="senior_match",
         )
         result = optimize(report, sample_resume_data)
         assert result.injected_skills == []
@@ -498,19 +503,12 @@ class TestOptimizerEdgeCases:
     def test_skill_injected_into_existing_category_only(self, sample_resume_data):
         """Injected skill should land in one of the original category keys."""
         original_keys = set(sample_resume_data.skills.categories.keys())
-        report = MatchReport(
-            overall_score=40.0,
-            breakdown=ScoreBreakdown(
-                semantic_similarity=0.40,
-                skill_match=SkillMatchResult(
-                    matched=[],
-                    missing=["SomeUnknownTool"],
-                    match_rate=0.0,
-                ),
-                title_relevance=0.3,
-                experience_match="level_not_detected",
-            ),
-            recommendations=[],
+        report = _make_match_report(
+            score=40.0,
+            matched=[],
+            missing=["SomeUnknownTool"],
+            title_relevance=0.3,
+            experience_match="level_not_detected",
         )
         result = optimize(report, sample_resume_data)
         result_keys = set(result.resume.skills.categories.keys())
