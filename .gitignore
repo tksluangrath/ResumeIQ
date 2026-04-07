@@ -54,3 +54,8 @@ Thumbs.db
 *.out
 *.toc
 *.pdf
+*.fdb_latexmk
+*.fls
+
+# Generated output
+output/
